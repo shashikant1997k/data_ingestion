@@ -1,0 +1,140 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+:root {
+  --max-width: 100%;
+  --font-robo: "Roboto", sans-serif;
+}
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  background: #ececec;
+  font-size: var(--font-robo);
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+}
+h1 {
+  font-size: 1.2rem;
+}
+// =================
+.m-t {
+  margin-top: 1rem;
+}
+.m-b {
+  margin-bottom: 1rem;
+}
+// =================
+.fullHeight {
+  height: 100vh;
+}
+// =================
+.dashboardLayout {
+  background: #f1efe9;
+  min-height: 100vh;
+  .pageTitle {
+    border-bottom: 1px solid #dddddd;
+    padding: 0.75rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .pageContentRow {
+    padding: 0 1.5rem;
+  }
+}
+
+// =================
+.previewCard {
+  .pdfPreviewCard {
+    .react-pdf__Page {
+      min-height: 100% !important;
+      min-width: 100% !important;
+      // border: 2px solid black;
+      canvas {
+        width: 100% !important;
+        height: 100% !important;
+      }
+    }
+  }
+}
+
+.pdfWrapper {
+  .react-pdf__Page {
+    border-bottom: 16px solid #d9d9d9;
+  }
+}
+
+.font-500 {
+  font-weight: 500;
+}
+.color-white {
+  color: white;
+}
+.ant-btn-success {
+  background: #42b72a;
+  border-color: #42b72a;
+  border: none;
+  &:hover {
+    color: white;
+    background-color: #36a420;
+    border-color: #36a420;
+    outline: none;
+  }
+}
+// ==================
+.verifyWrapper {
+  margin: auto;
+  max-width: 365px;
+  background: #ffffff;
+  box-shadow: 0 0 8px 2px #e3e3e3;
+}
+.flex {
+  display: flex;
+}
+.ant-result .ant-result-title {
+  font-size: 20px;
+}
+.modalVerifyOtp {
+  text-align: center;
+}
+
+#PdfContainer {
+  margin: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.PDFDocument {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.PDFPage {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.PDFPage > canvas {
+  max-width: 100%;
+  margin-bottom: 25px;
+  height: 200px !important;
+}
+
+.AddnewDataModal {
+  .ant-modal-content {
+    width: 100%;
+    padding: 30px 30px;
+  }
+}
+
+#scrollableDiv {
+  .infinite-scroll-component {
+    overflow: hidden !important;
+  }
+}

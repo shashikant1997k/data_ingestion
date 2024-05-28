@@ -1,0 +1,32 @@
+.appHeader {
+  background: #48586f;
+  color: rgb(255, 255, 255);
+  padding: 0 0.65rem;
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  .printerName {
+    background: rgb(228, 29, 50);
+    border-radius: 5px 5px 0 0;
+    padding: 0.35rem 0.65rem;
+    display: inline-flex;
+    align-items: center;
+  }
+  .userInfoGrid {
+    .userName {
+      small {
+        display: block;
+      }
+    }
+  }
+  .logoutBtn {
+    background: #ff0000;
+    border-color: transparent;
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    margin: 0.35rem 0;
+  }
+}
