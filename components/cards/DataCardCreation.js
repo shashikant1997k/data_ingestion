@@ -146,7 +146,11 @@ export default function DataCardCreation({ setIsModalOpen, isModalOpen }) {
                 },
               ]}
             >
-              <Input placeholder="Location" />
+              <Input placeholder="Latitude,Longitude" />
+              <span>
+                eg. 28.551555 , 77.239154 (Comma seperated Latitude and
+                Longitude )
+              </span>
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" disabled={isLoading}>

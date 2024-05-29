@@ -5,7 +5,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <title>Create NFT using a document</title>
+          <title>Data Ingestion and Collection</title>
         </Head>
         <body>
           <Main />

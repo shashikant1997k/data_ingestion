@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+// @import url("https://unpkg.com/leaflet@1.7.1/dist/leaflet.css");
+
 :root {
   --max-width: 100%;
   --font-robo: "Roboto", sans-serif;
@@ -123,7 +125,7 @@ h1 {
 .PDFPage > canvas {
   max-width: 100%;
   margin-bottom: 25px;
-  height: 200px !important;
+  height: auto !important;
 }
 
 .AddnewDataModal {
@@ -137,4 +139,14 @@ h1 {
   .infinite-scroll-component {
     overflow: hidden !important;
   }
+}
+
+.leaflet-container {
+  height: 600px;
+  width: 100%;
+}
+
+.leaflet-div-icon {
+  background: transparent;
+  border: none;
 }
