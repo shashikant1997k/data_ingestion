@@ -5,6 +5,7 @@ import Head from "next/head";
 import { Document, Page, pdfjs } from "react-pdf";
 import DashboardLayout from "@components/layout/DashboardLayout";
 import { useSelector } from "react-redux";
+import Map from "@components/map/Map";
 const { Meta } = Card;
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -51,9 +52,45 @@ export default function DetailsIndex() {
                       />
                     </Row>
 
-                    <div className="mt-3">
-                      <Meta description={dataCon?.description} />
-                    </div>
+                    <Row className="mt-3" gutter={[20]}>
+                      <Col span={14} md={14} sm={24} xs={24}>
+                        <Meta description={dataCon?.description} />
+                      </Col>
+                      <Col span={10} md={10} sm={24} xs={24}>
+                        {String(dataCon?.location).split(",").length == 2 ? (
+                          <Map
+                            width="800"
+                            height="600"
+                            center={[
+                              String((dataCon?.location).split(",")[0]).trim(),
+                              String((dataCon?.location).split(",")[1]).trim(),
+                            ]}
+                            zoom={12}
+                          >
+                            {({ TileLayer, Marker, Popup }) => (
+                              <>
+                                <TileLayer
+                                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                />
+                                <Marker
+                                  position={[
+                                    String(
+                                      (dataCon?.location).split(",")[0]
+                                    ).trim(),
+                                    String(
+                                      (dataCon?.location).split(",")[1]
+                                    ).trim(),
+                                  ]}
+                                >
+                                  <Popup>Location</Popup>
+                                </Marker>
+                              </>
+                            )}
+                          </Map>
+                        ) : null}
+                      </Col>
+                    </Row>
                   </Card>
                 ) : dataCon?.fileType.includes("pdf") ? (
                   <Card title={dataCon?.name} style={{ width: "100%" }}>
@@ -75,9 +112,45 @@ export default function DetailsIndex() {
                         ))}
                       </Document>
                     </div>
-                    <div className="mt-3">
-                      <Meta description={dataCon?.description} />
-                    </div>
+                    <Row className="mt-3" gutter={[20]}>
+                      <Col span={14} md={14} sm={24} xs={24}>
+                        <Meta description={dataCon?.description} />
+                      </Col>
+                      <Col span={10} md={10} sm={24} xs={24}>
+                        {String(dataCon?.location).split(",").length == 2 ? (
+                          <Map
+                            width="800"
+                            height="600"
+                            center={[
+                              String((dataCon?.location).split(",")[0]).trim(),
+                              String((dataCon?.location).split(",")[1]).trim(),
+                            ]}
+                            zoom={12}
+                          >
+                            {({ TileLayer, Marker, Popup }) => (
+                              <>
+                                <TileLayer
+                                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                />
+                                <Marker
+                                  position={[
+                                    String(
+                                      (dataCon?.location).split(",")[0]
+                                    ).trim(),
+                                    String(
+                                      (dataCon?.location).split(",")[1]
+                                    ).trim(),
+                                  ]}
+                                >
+                                  <Popup>Location</Popup>
+                                </Marker>
+                              </>
+                            )}
+                          </Map>
+                        ) : null}
+                      </Col>
+                    </Row>
                   </Card>
                 ) : null}
               </div>

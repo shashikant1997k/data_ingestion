@@ -19,6 +19,7 @@ import DataCardCreation from "@components/cards/DataCardCreation";
 import {
   DeleteOutlined,
   DownloadOutlined,
+  EditOutlined,
   FolderViewOutlined,
 } from "@ant-design/icons";
 import { archaeologicalDataDelete } from "@redux/archaeologicalDataSlice";
@@ -38,10 +39,13 @@ export default function CreatorDashboard() {
   const [expanded, setExpanded] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
+  const [editData, setEditData] = useState({});
 
   useEffect(() => {
     setDataCon(archaeologicaList);
   }, [archaeologicaList]);
+
+  console.log("archaeologicaList", archaeologicaList);
 
   const searchInpChange = (e) => {
     let inptext = String(e.target.value).toLowerCase();
@@ -57,9 +61,22 @@ export default function CreatorDashboard() {
     setIsLoading(false);
   };
 
-  const deleteData = (_id) => {
+  const handleDeleteData = (_id) => {
     dispatch(archaeologicalDataDelete(_id));
     displayMessage(SUCCESS_MSG_TYPE, "Deleted Successfully");
+  };
+
+  const downloadFile = (_file) => {
+    console.log("_file", _file);
+    var a = document.createElement("a");
+    a.href = _file;
+    a.download = "file";
+    a.click();
+  };
+
+  const handleEditData = (_val) => {
+    setEditData(_val);
+    setIsModalOpen(true);
   };
 
   const columns = [
@@ -109,12 +126,22 @@ export default function CreatorDashboard() {
         </Typography.Paragraph>
       ),
       document: (
-        <Button type="primary" shape="round" icon={<DownloadOutlined />}>
+        <Button
+          type="primary"
+          shape="round"
+          icon={<DownloadOutlined />}
+          onClick={() => downloadFile(val?.file)}
+        >
           Download
         </Button>
       ),
       action: (
         <Space>
+          <Button
+            type="primary"
+            icon={<EditOutlined />}
+            onClick={() => handleEditData(val)}
+          />
           <Button
             type="primary"
             icon={<FolderViewOutlined />}
@@ -123,7 +150,7 @@ export default function CreatorDashboard() {
           <Popconfirm
             title="Delete"
             description="Are you sure to delete?"
-            onConfirm={() => deleteData(val?.id)}
+            onConfirm={() => handleDeleteData(val?.id)}
             okText="Yes"
             cancelText="No"
             key="delete"
@@ -157,7 +184,13 @@ export default function CreatorDashboard() {
           <div className="pageTitle">
             <Row justify={"end"}>
               <div>
-                <Button onClick={() => setIsModalOpen(true)} type="primary">
+                <Button
+                  onClick={() => {
+                    setEditData({});
+                    setIsModalOpen(true);
+                  }}
+                  type="primary"
+                >
                   Add New Data
                 </Button>
               </div>
@@ -191,6 +224,8 @@ export default function CreatorDashboard() {
         <DataCardCreation
           setIsModalOpen={setIsModalOpen}
           isModalOpen={isModalOpen}
+          editData={editData}
+          setEditData={setEditData}
         />
       </>
     </>

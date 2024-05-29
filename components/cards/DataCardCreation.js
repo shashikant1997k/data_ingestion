@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InboxOutlined } from "@ant-design/icons";
 import { Button, Form, Card, Modal, Spin, Input, Upload } from "antd";
 import { displayMessage } from "@utils/common";
@@ -8,7 +8,12 @@ import { archaeologicalDataAdd } from "@redux/archaeologicalDataSlice";
 const { TextArea } = Input;
 import { uid } from "uid";
 
-export default function DataCardCreation({ setIsModalOpen, isModalOpen }) {
+export default function DataCardCreation({
+  setIsModalOpen,
+  isModalOpen,
+  editData,
+  setEditData,
+}) {
   const { user } = useSelector((state) => state.userInfo);
   const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
@@ -52,6 +57,13 @@ export default function DataCardCreation({ setIsModalOpen, isModalOpen }) {
       setIsLoading(false);
     }
   }
+
+  useEffect(() => {
+    console.log("editData", editData);
+    if (Object.keys(editData).length) {
+      form.setFieldsValue({ ...editData });
+    }
+  }, [editData]);
 
   return (
     <Modal
