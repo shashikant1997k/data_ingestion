@@ -9,6 +9,9 @@ import {
 } from "./hardData";
 import { message } from "antd";
 
+export const updateAllowedRole = ["admin", "researcher"];
+export const addDataAllowedRole = ["admin", "researcher"];
+
 export const displayMessage = function (type, msg) {
   if (type === SUCCESS_MSG_TYPE)
     message.success({

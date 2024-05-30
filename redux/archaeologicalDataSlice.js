@@ -15,6 +15,20 @@ const archaeologicalDataSlice = createSlice({
       state.archaeologicaList = [payload, ...state.archaeologicaList];
       state.error = "";
     },
+    archaeologicalDataEdit: (state, { payload }) => {
+      const newData = [...state.archaeologicaList];
+      let index = state.archaeologicaList.findIndex(
+        (item) => item.id === payload?.id
+      );
+
+      if (index !== -1) {
+        newData[index] = payload;
+      }
+
+      state.isLoading = false;
+      state.archaeologicaList = newData;
+      state.error = "";
+    },
     archaeologicalDataDelete: (state, { payload }) => {
       const newData = [...state.archaeologicaList];
       let index = state.archaeologicaList.findIndex(
@@ -22,7 +36,6 @@ const archaeologicalDataSlice = createSlice({
       );
       if (index !== -1) {
         newData.splice(index, 1);
-      } else {
       }
       state.isLoading = false;
       state.archaeologicaList = newData;
@@ -40,6 +53,7 @@ export const {
   archaeologicalDataAdd,
   archaeologicalDataDelete,
   archaeologicalDataClear,
+  archaeologicalDataEdit,
 } = archaeologicalDataSlice.actions;
 
 export default archaeologicalDataSlice.reducer;

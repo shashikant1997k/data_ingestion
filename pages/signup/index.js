@@ -108,6 +108,7 @@ export default function SignUp() {
                   <Select autoComplete={false} name="userRole" showSearch>
                     <Select.Option value="admin">Admin</Select.Option>
                     <Select.Option value="researcher">Researcher</Select.Option>
+                    <Select.Option value="user">User</Select.Option>
                   </Select>
                 </Form.Item>
                 <Form.Item

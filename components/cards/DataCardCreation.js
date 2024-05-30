@@ -4,7 +4,10 @@ import { Button, Form, Card, Modal, Spin, Input, Upload } from "antd";
 import { displayMessage } from "@utils/common";
 import { ERROR_MSG_TYPE, SUCCESS_MSG_TYPE } from "@utils/hardData";
 import { useDispatch, useSelector } from "react-redux";
-import { archaeologicalDataAdd } from "@redux/archaeologicalDataSlice";
+import {
+  archaeologicalDataAdd,
+  archaeologicalDataEdit,
+} from "@redux/archaeologicalDataSlice";
 const { TextArea } = Input;
 import { uid } from "uid";
 
@@ -30,27 +33,54 @@ export default function DataCardCreation({
     try {
       if (isLoading) return;
       setIsLoading(true);
+
       let metadata = {
-        id: uid(10),
-        name: values?.name,
-        description: values?.description,
-        location: values?.location,
+        id: Object.keys(editData).length ? editData?.id : uid(10),
+        name: values?.name || editData?.name,
+        description: values?.description || editData?.description,
+        location: values?.location || editData?.location,
         file: values?.file,
         fileType: values?.file?.type,
+        createdBy: user?.email,
       };
 
-      const reader = new FileReader();
-      reader.readAsDataURL(values?.file);
+      console.log("values", values);
 
-      reader.onload = () => {
-        console.log(reader.result);
-        metadata = { ...metadata, file: reader.result };
-        dispatch(archaeologicalDataAdd(metadata));
-      };
+      if (Object.keys(editData).length) {
+        if (values?.file) {
+          const reader = new FileReader();
+          reader.readAsDataURL(values?.file);
+
+          reader.onload = () => {
+            metadata = { ...metadata, file: reader.result };
+            dispatch(archaeologicalDataEdit(metadata));
+          };
+        } else {
+          metadata = {
+            ...metadata,
+            file: editData?.file,
+            fileType: editData?.fileType,
+          };
+          dispatch(archaeologicalDataEdit(metadata));
+        }
+      } else {
+        const reader = new FileReader();
+        reader.readAsDataURL(values?.file);
+
+        reader.onload = () => {
+          metadata = { ...metadata, file: reader.result };
+          dispatch(archaeologicalDataAdd(metadata));
+        };
+      }
 
       setIsModalOpen(false);
       form.resetFields();
-      displayMessage(SUCCESS_MSG_TYPE, "Data added successfully");
+      displayMessage(
+        SUCCESS_MSG_TYPE,
+        Object.keys(editData).length
+          ? "Data updated successfully"
+          : "Data added successfully"
+      );
     } catch (error) {
       console.log(error);
     } finally {
@@ -61,7 +91,9 @@ export default function DataCardCreation({
   useEffect(() => {
     console.log("editData", editData);
     if (Object.keys(editData).length) {
-      form.setFieldsValue({ ...editData });
+      form.setFieldValue("name", editData?.name);
+      form.setFieldValue("description", editData?.description);
+      form.setFieldValue("location", editData?.location);
     }
   }, [editData]);
 
@@ -158,11 +190,7 @@ export default function DataCardCreation({
                 },
               ]}
             >
-              <Input placeholder="Latitude,Longitude" />
-              <span>
-                eg. 28.551555 , 77.239154 (Comma seperated Latitude and
-                Longitude )
-              </span>
+              <Input placeholder=" eg. 28.551555 , 77.239154 (Comma seperated Latitude and Longitude )" />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" disabled={isLoading}>

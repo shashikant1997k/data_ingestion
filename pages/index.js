@@ -24,13 +24,18 @@ import {
 } from "@ant-design/icons";
 import { archaeologicalDataDelete } from "@redux/archaeologicalDataSlice";
 import { useRouter } from "next/router";
-import { displayMessage } from "@utils/common";
+import {
+  addDataAllowedRole,
+  displayMessage,
+  updateAllowedRole,
+} from "@utils/common";
 import { SUCCESS_MSG_TYPE } from "@utils/hardData";
 const { Search } = Input;
 export default function CreatorDashboard() {
   const { archaeologicaList } = useSelector(
     (state) => state.archaeologicalDataList
   );
+  const { user } = useSelector((state) => state.userInfo);
   const [dataCon, setDataCon] = useState(archaeologicaList);
   const [dataCon1, setDataCon1] = useState(archaeologicaList);
   const [isLoading, setIsLoading] = useState(false);
@@ -137,26 +142,32 @@ export default function CreatorDashboard() {
       ),
       action: (
         <Space>
-          <Button
-            type="primary"
-            icon={<EditOutlined />}
-            onClick={() => handleEditData(val)}
-          />
+          {updateAllowedRole.includes(user?.userRole) && (
+            <Button
+              type="primary"
+              icon={<EditOutlined />}
+              onClick={() => handleEditData(val)}
+            />
+          )}
+
           <Button
             type="primary"
             icon={<FolderViewOutlined />}
             onClick={() => router.push(`/details/${val?.id}`)}
           />
-          <Popconfirm
-            title="Delete"
-            description="Are you sure to delete?"
-            onConfirm={() => handleDeleteData(val?.id)}
-            okText="Yes"
-            cancelText="No"
-            key="delete"
-          >
-            <Button type="primary" danger icon={<DeleteOutlined />} />
-          </Popconfirm>
+
+          {updateAllowedRole.includes(user?.userRole) && (
+            <Popconfirm
+              title="Delete"
+              description="Are you sure to delete?"
+              onConfirm={() => handleDeleteData(val?.id)}
+              okText="Yes"
+              cancelText="No"
+              key="delete"
+            >
+              <Button type="primary" danger icon={<DeleteOutlined />} />
+            </Popconfirm>
+          )}
         </Space>
       ),
     }));
@@ -183,17 +194,19 @@ export default function CreatorDashboard() {
           </div>
           <div className="pageTitle">
             <Row justify={"end"}>
-              <div>
-                <Button
-                  onClick={() => {
-                    setEditData({});
-                    setIsModalOpen(true);
-                  }}
-                  type="primary"
-                >
-                  Add New Data
-                </Button>
-              </div>
+              {addDataAllowedRole.includes(user?.userRole) && (
+                <div>
+                  <Button
+                    onClick={() => {
+                      setEditData({});
+                      setIsModalOpen(true);
+                    }}
+                    type="primary"
+                  >
+                    Add New Data
+                  </Button>
+                </div>
+              )}
             </Row>
           </div>
         </Row>
@@ -221,6 +234,7 @@ export default function CreatorDashboard() {
 
           <Table dataSource={tableData} columns={columns} loading={isLoading} />
         </div>
+
         <DataCardCreation
           setIsModalOpen={setIsModalOpen}
           isModalOpen={isModalOpen}
