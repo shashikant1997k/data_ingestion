@@ -30,6 +30,7 @@ import {
   updateAllowedRole,
 } from "@utils/common";
 import { SUCCESS_MSG_TYPE } from "@utils/hardData";
+import moment from "moment";
 const { Search } = Input;
 export default function CreatorDashboard() {
   const { archaeologicaList } = useSelector(
@@ -59,7 +60,8 @@ export default function CreatorDashboard() {
       (val) =>
         String(val?.name)?.toLowerCase().includes(inptext) ||
         String(val?.description)?.toLowerCase().includes(inptext) ||
-        String(val?.location)?.toLowerCase().includes(inptext)
+        String(val?.location)?.toLowerCase().includes(inptext) ||
+        String(val?.excavationDetails)?.toLowerCase().includes(inptext)
     );
 
     setDataCon(temp);
@@ -86,6 +88,12 @@ export default function CreatorDashboard() {
 
   const columns = [
     {
+      title: "Discover Date",
+      dataIndex: "dateOfDiscovery",
+      key: "dateOfDiscovery",
+      width: 140,
+    },
+    {
       title: "Name",
       dataIndex: "name",
       key: "name",
@@ -96,19 +104,28 @@ export default function CreatorDashboard() {
       key: "location",
     },
     {
-      title: "Description",
+      title: "Cultural Context",
       dataIndex: "description",
       key: "description",
+    },
+    {
+      title: "Excavation Details",
+      dataIndex: "excavationDetails",
+      key: "excavationDetails",
     },
     {
       title: "Document",
       dataIndex: "document",
       key: "document",
+      fixed: "right",
+      width: 100,
     },
     {
       title: "Action",
       dataIndex: "action",
       key: "document",
+      fixed: "right",
+      width: 170,
     },
   ];
 
@@ -116,29 +133,35 @@ export default function CreatorDashboard() {
     setIsLoading(true);
     let temp = dataCon?.map((val, ind) => ({
       key: val?.id,
+      dateOfDiscovery: val?.dateOfDiscovery
+        ? moment(val?.dateOfDiscovery, "DD-MM-YYYY").format("ll")
+        : "N/A",
       name: val?.name,
       location: val?.location,
       description: (
         <Typography.Paragraph
           ellipsis={{
             rows: 2,
-            expandable: "collapsible",
-            expanded,
-            onExpand: (_, info) => setExpanded(info.expanded),
           }}
         >
           {val?.description}
         </Typography.Paragraph>
       ),
+      excavationDetails: (
+        <Typography.Paragraph
+          ellipsis={{
+            rows: 2,
+          }}
+        >
+          {val?.excavationDetails || "N/A"}
+        </Typography.Paragraph>
+      ),
       document: (
         <Button
           type="primary"
-          shape="round"
           icon={<DownloadOutlined />}
           onClick={() => downloadFile(val?.file)}
-        >
-          Download
-        </Button>
+        />
       ),
       action: (
         <Space>
@@ -151,7 +174,7 @@ export default function CreatorDashboard() {
           )}
 
           <Button
-            type="primary"
+            type="default"
             icon={<FolderViewOutlined />}
             onClick={() => router.push(`/details/${val?.id}`)}
           />
@@ -232,7 +255,14 @@ export default function CreatorDashboard() {
               )}
             </Row> */}
 
-          <Table dataSource={tableData} columns={columns} loading={isLoading} />
+          <Table
+            dataSource={tableData}
+            columns={columns}
+            loading={isLoading}
+            scroll={{
+              x: 1300,
+            }}
+          />
         </div>
 
         <DataCardCreation

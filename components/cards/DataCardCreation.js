@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import { InboxOutlined } from "@ant-design/icons";
-import { Button, Form, Card, Modal, Spin, Input, Upload } from "antd";
+import {
+  Button,
+  Form,
+  Card,
+  Modal,
+  Spin,
+  Input,
+  Upload,
+  DatePicker,
+} from "antd";
 import { displayMessage } from "@utils/common";
 import { ERROR_MSG_TYPE, SUCCESS_MSG_TYPE } from "@utils/hardData";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +19,8 @@ import {
 } from "@redux/archaeologicalDataSlice";
 const { TextArea } = Input;
 import { uid } from "uid";
+import moment from "moment";
+import dayjs from "dayjs";
 
 export default function DataCardCreation({
   setIsModalOpen,
@@ -21,6 +32,7 @@ export default function DataCardCreation({
   const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const [dateDiscv, setDateDiscv] = useState("");
 
   const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -33,15 +45,21 @@ export default function DataCardCreation({
     try {
       if (isLoading) return;
       setIsLoading(true);
-
+      console.log(
+        'moment(values?.dateOfDiscovery).format("DD-MM-YYYY")',
+        moment(values?.dateOfDiscovery).format("DD-MM-YYYY")
+      );
       let metadata = {
         id: Object.keys(editData).length ? editData?.id : uid(10),
         name: values?.name || editData?.name,
         description: values?.description || editData?.description,
+        excavationDetails:
+          values?.excavationDetails || editData?.excavationDetails,
         location: values?.location || editData?.location,
         file: values?.file,
         fileType: values?.file?.type,
         createdBy: user?.email,
+        dateOfDiscovery: dateDiscv ? dateDiscv : editData?.dateOfDiscovery,
       };
 
       console.log("values", values);
@@ -94,8 +112,20 @@ export default function DataCardCreation({
       form.setFieldValue("name", editData?.name);
       form.setFieldValue("description", editData?.description);
       form.setFieldValue("location", editData?.location);
+      form.setFieldValue("excavationDetails", editData?.excavationDetails);
+      form.setFieldValue(
+        "dateOfDiscovery",
+        editData?.dateOfDiscovery
+          ? dayjs(editData?.dateOfDiscovery, "DD-MM-YYYY")
+          : dayjs()
+      );
     }
   }, [editData]);
+
+  const onDateChange = (date, dateString) => {
+    console.log(date, dateString);
+    setDateDiscv(dateString);
+  };
 
   return (
     <Modal
@@ -153,6 +183,8 @@ export default function DataCardCreation({
                   </p>
                   <p className="ant-upload-text">
                     Click or drag file to this area to upload
+                    <br />
+                    Photographs / Scanned documents / Research paper
                   </p>
                 </Upload.Dragger>
               </Form.Item>
@@ -174,13 +206,23 @@ export default function DataCardCreation({
               rules={[
                 {
                   required: true,
-                  message: "Please input your Description!",
+                  message: "Please input your cultural context!",
                 },
               ]}
             >
-              <TextArea placeholder="Description" rows={4} />
+              <TextArea placeholder="Cultural Context" rows={4} />
             </Form.Item>
-
+            <Form.Item
+              name="excavationDetails"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your excavation details!",
+                },
+              ]}
+            >
+              <TextArea placeholder="Excavation details" rows={2} />
+            </Form.Item>
             <Form.Item
               name="location"
               rules={[
@@ -191,6 +233,18 @@ export default function DataCardCreation({
               ]}
             >
               <Input placeholder=" eg. 28.551555 , 77.239154 (Comma seperated Latitude and Longitude )" />
+            </Form.Item>
+
+            <Form.Item
+              name="dateOfDiscovery"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input Date of discovery!",
+                },
+              ]}
+            >
+              <DatePicker onChange={onDateChange} format={"DD-MM-YYYY"} />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" disabled={isLoading}>

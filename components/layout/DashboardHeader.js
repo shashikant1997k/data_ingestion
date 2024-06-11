@@ -19,7 +19,6 @@ export default function DashboardHeader({ account }) {
 
   const handleMenuClick = (e) => {
     if (e?.key == 1) {
-      router.push("/profile");
     } else if (e?.key == 2) {
       logout();
     }
@@ -27,9 +26,8 @@ export default function DashboardHeader({ account }) {
 
   const items = [
     {
-      label: "Profile",
+      label: "",
       key: "1",
-      icon: <UserOutlined />,
     },
     {
       type: "divider",
@@ -49,7 +47,10 @@ export default function DashboardHeader({ account }) {
     <div className={styles.appHeader}>
       <Row className="w-100" align="bottom" justify={"space-between"}>
         <Col span={12} flex="auto">
-          <Button onClick={() => router.push("/")}>Home</Button>
+          <Space>
+            <Button onClick={() => router.push("/")}>Home</Button>
+            <Button onClick={() => router.push("/resources")}>Resources</Button>
+          </Space>
         </Col>
         <Col span={12}>
           <Space

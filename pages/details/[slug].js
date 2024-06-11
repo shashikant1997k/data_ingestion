@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import Map from "@components/map/Map";
 const { Meta } = Card;
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-
+const { Title, Paragraph } = Typography;
 export default function DetailsIndex() {
   const router = useRouter();
   const { archaeologicaList } = useSelector(
@@ -35,8 +35,11 @@ export default function DetailsIndex() {
   return (
     <>
       <Head>
-        <title>NFT Details</title>
+        <title>Detail</title>
       </Head>
+      <div className="pageTitle">
+        <Title level={4}>Detail</Title>
+      </div>
       <Spin spinning={isLoading}>
         <Row className="pt-2" justify={"center"}>
           <Col span={18} md={18} sm={24} xs={24}>
@@ -54,7 +57,22 @@ export default function DetailsIndex() {
 
                     <Row className="mt-3" gutter={[20]}>
                       <Col span={14} md={14} sm={24} xs={24}>
-                        <Meta description={dataCon?.description} />
+                        <Meta
+                          description={
+                            <div className="d-flex flex-column">
+                              <Typography>
+                                <Title level={4}>Cultural Context:</Title>
+                                <Paragraph>{dataCon?.description}</Paragraph>
+                              </Typography>
+                              <Typography>
+                                <Title level={4}>Excavation Details:</Title>
+                                <Paragraph>
+                                  {dataCon?.excavationDetails}
+                                </Paragraph>
+                              </Typography>
+                            </div>
+                          }
+                        />
                       </Col>
                       <Col span={10} md={10} sm={24} xs={24}>
                         {String(dataCon?.location).split(",").length == 2 ? (
@@ -114,7 +132,22 @@ export default function DetailsIndex() {
                     </div>
                     <Row className="mt-3" gutter={[20]}>
                       <Col span={14} md={14} sm={24} xs={24}>
-                        <Meta description={dataCon?.description} />
+                        <Meta
+                          description={
+                            <div className="d-flex flex-column">
+                              <Typography>
+                                <Title level={4}>Cultural Context:</Title>
+                                <Paragraph>{dataCon?.description}</Paragraph>
+                              </Typography>
+                              <Typography>
+                                <Title level={4}>Excavation Details:</Title>
+                                <Paragraph>
+                                  {dataCon?.excavationDetails}
+                                </Paragraph>
+                              </Typography>
+                            </div>
+                          }
+                        />
                       </Col>
                       <Col span={10} md={10} sm={24} xs={24}>
                         {String(dataCon?.location).split(",").length == 2 ? (
