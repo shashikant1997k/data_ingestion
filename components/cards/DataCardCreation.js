@@ -107,7 +107,6 @@ export default function DataCardCreation({
   }
 
   useEffect(() => {
-    console.log("editData", editData);
     if (Object.keys(editData).length) {
       form.setFieldValue("name", editData?.name);
       form.setFieldValue("description", editData?.description);
@@ -136,6 +135,7 @@ export default function DataCardCreation({
       onCancel={() => {
         if (isLoading) return;
         setIsModalOpen(false);
+        form.resetFields();
       }}
       className="AddnewDataModal"
       width={800}
@@ -244,7 +244,11 @@ export default function DataCardCreation({
                 },
               ]}
             >
-              <DatePicker onChange={onDateChange} format={"DD-MM-YYYY"} />
+              <DatePicker
+                className="w-100"
+                onChange={onDateChange}
+                format={"DD-MM-YYYY"}
+              />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" disabled={isLoading}>

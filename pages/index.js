@@ -51,8 +51,6 @@ export default function CreatorDashboard() {
     setDataCon(archaeologicaList);
   }, [archaeologicaList]);
 
-  console.log("archaeologicaList", archaeologicaList);
-
   const searchInpChange = (e) => {
     let inptext = String(e.target.value).toLowerCase();
     setIsLoading(true);
