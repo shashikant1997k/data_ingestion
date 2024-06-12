@@ -19,6 +19,7 @@ import { ERROR_MSG_TYPE, SUCCESS_MSG_TYPE } from "@utils/hardData";
 import { displayMessage, handleErrorResponse } from "@utils/common";
 import { useDispatch, useSelector } from "react-redux";
 import { userAdd } from "@redux/userListSlice";
+import { userSuccess } from "@redux/userSlice";
 const { Title } = Typography;
 
 export default function SignUp() {
@@ -39,8 +40,8 @@ export default function SignUp() {
         return false;
       }
       if (values) {
-        console.log("values", values);
         dispatch(userAdd(values));
+        dispatch(userSuccess(values));
         displayMessage(SUCCESS_MSG_TYPE, "Registered Successfully!");
 
         router.push("/");

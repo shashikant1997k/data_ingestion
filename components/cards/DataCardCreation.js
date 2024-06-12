@@ -55,14 +55,13 @@ export default function DataCardCreation({
         description: values?.description || editData?.description,
         excavationDetails:
           values?.excavationDetails || editData?.excavationDetails,
-        location: values?.location || editData?.location,
+        location:
+          values?.location || editData?.location || "22.417803,78.516747",
         file: values?.file,
         fileType: values?.file?.type,
         createdBy: user?.email,
         dateOfDiscovery: dateDiscv ? dateDiscv : editData?.dateOfDiscovery,
       };
-
-      console.log("values", values);
 
       if (Object.keys(editData).length) {
         if (values?.file) {
@@ -159,6 +158,13 @@ export default function DataCardCreation({
                 name="file"
                 valuePropName="originFileObj"
                 getValueFromEvent={normFile}
+                rules={[
+                  {
+                    required: true,
+                    message:
+                      "Please upload Photographs / Scanned documents / Research paper!",
+                  },
+                ]}
                 noStyle
               >
                 <Upload.Dragger

@@ -1,4 +1,4 @@
-import { Button, Col, Dropdown, Row, Space } from "antd";
+import { Button, Col, Dropdown, Row, Space, Tag } from "antd";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import styles from "./DashboardHeader.module.scss";
 import { useRouter } from "next/router";
@@ -59,6 +59,7 @@ export default function DashboardHeader({ account }) {
           >
             <div className={styles.userInfoGrid}>
               <Space>
+                <Tag color="#1677ff">{user?.userRole}</Tag>
                 <div className={styles.userName}>
                   <div>
                     <Dropdown.Button

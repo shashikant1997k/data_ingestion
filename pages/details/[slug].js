@@ -101,7 +101,7 @@ export default function DetailsIndex() {
                                     ).trim(),
                                   ]}
                                 >
-                                  <Popup>Location</Popup>
+                                  <Popup>{dataCon?.name}</Popup>
                                 </Marker>
                               </>
                             )}
@@ -176,7 +176,7 @@ export default function DetailsIndex() {
                                     ).trim(),
                                   ]}
                                 >
-                                  <Popup>Location</Popup>
+                                  <Popup>{dataCon?.name}</Popup>
                                 </Marker>
                               </>
                             )}

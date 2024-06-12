@@ -26,7 +26,6 @@ export default function Login() {
   const [formLoading, setFormLoading] = useState(false);
   const { userList } = useSelector((state) => state.allUserList);
 
-  console.log("userList", userList);
   const handleOnSubmit = async (values) => {
     try {
       let isUserExist = userList?.filter((val) => {
